@@ -1,99 +1,123 @@
-import AQIMap from "@/components/AQIMap";
-import MetricsCards from "@/components/MetricsCards";
-import SourceChart from "@/components/SourceChart";
-import ForecastChart from "@/components/ForecastChart";
-import CitizenSaathiChat from "@/components/CitizenSaathiChat";
-import { Activity, ShieldAlert, Navigation } from "lucide-react";
+import Link from "next/link";
+import { Activity, Wind, BarChart2, ShieldAlert, MessageSquare, ArrowRight, Globe } from "lucide-react";
 
-export default function Dashboard() {
+const features = [
+  {
+    icon: Activity,
+    title: "PollutionBlame™",
+    description: "Real-time source attribution using live CPCB sensor readings, satellite thermal data, and traffic density maps.",
+    href: "/attribution",
+    color: "text-blue-400",
+    bg: "bg-blue-500/10",
+    border: "border-blue-500/20",
+  },
+  {
+    icon: Wind,
+    title: "AirOracle™",
+    description: "24-72 hour hyperlocal AQI forecasting at 1km grid resolution using meteorological models and historical trends.",
+    href: "/forecast",
+    color: "text-emerald-400",
+    bg: "bg-emerald-500/10",
+    border: "border-emerald-500/20",
+  },
+  {
+    icon: ShieldAlert,
+    title: "EnforcementCopilot™",
+    description: "RAG-powered enforcement directives cross-referencing pollution anomalies with CPCB registered polluter registries.",
+    href: "/enforcement",
+    color: "text-red-400",
+    bg: "bg-red-500/10",
+    border: "border-red-500/20",
+  },
+  {
+    icon: MessageSquare,
+    title: "CitizenSaathi",
+    description: "Multilingual conversational AI interface providing hyperlocal health advisories in Telugu, Hindi, and English.",
+    href: "/citizen",
+    color: "text-purple-400",
+    bg: "bg-purple-500/10",
+    border: "border-purple-500/20",
+  },
+];
+
+const stats = [
+  { label: "CPCB Stations Monitored", value: "900+", sub: "Across India" },
+  { label: "Cities Connected", value: "132", sub: "Live telemetry" },
+  { label: "Data Refresh Rate", value: "15 min", sub: "Real-time pipeline" },
+  { label: "Reduction in Response Time", value: "74%", sub: "vs. manual review" },
+];
+
+export default function Home() {
   return (
-    <div className="min-h-screen p-4 md:p-8 max-w-[1600px] mx-auto">
-      {/* Header */}
-      <header className="mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-        <div>
-          <h1 className="text-3xl md:text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-emerald-400 flex items-center gap-3">
-            <Activity className="w-8 h-8 text-blue-400" />
-            VayuSense
+    <div className="min-h-screen">
+      {/* Hero */}
+      <section className="relative overflow-hidden px-6 md:px-16 py-24 text-center">
+        <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,rgba(59,130,246,0.15),transparent)]" />
+        <div className="max-w-4xl mx-auto">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-sm font-medium mb-6">
+            <Globe size={14} />
+            Live Data · Hyderabad, India
+          </div>
+          <h1 className="text-5xl md:text-7xl font-extrabold text-white leading-tight mb-6">
+            From Monitoring
+            <span className="block bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-cyan-400 to-emerald-400">
+              to Action
+            </span>
           </h1>
-          <p className="text-slate-400 mt-1">Hyperlocal Urban Air Intelligence — Hyderabad</p>
-        </div>
-        <div className="flex gap-3">
-          <div className="px-4 py-2 rounded-full glass text-sm font-medium border border-red-500/30 text-red-400 flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
-            3 Anomalies Detected
+          <p className="text-xl text-slate-400 max-w-2xl mx-auto mb-10">
+            VayuSense is India's first hyperlocal urban air quality intelligence platform — attributing pollution sources, forecasting migration, and generating enforcement directives in real-time.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link
+              href="/dashboard"
+              className="flex items-center justify-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-xl transition-all shadow-lg shadow-blue-500/20"
+            >
+              Open Live Dashboard <ArrowRight size={18} />
+            </Link>
+            <Link
+              href="/citizen"
+              className="flex items-center justify-center gap-2 px-6 py-3 glass text-white font-semibold rounded-xl transition-all hover:bg-white/10"
+            >
+              Ask CitizenSaathi <MessageSquare size={18} />
+            </Link>
           </div>
         </div>
-      </header>
+      </section>
 
-      {/* Main Grid */}
-      <MetricsCards />
-
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Left Column: Map */}
-        <div className="lg:col-span-2 space-y-6">
-          <div className="h-[500px] relative">
-            <AQIMap />
-            <div className="absolute top-4 left-4 z-[1000] glass px-4 py-2 rounded-lg pointer-events-none">
-              <h3 className="font-semibold text-white flex items-center gap-2">
-                <Navigation size={16} className="text-blue-400"/>
-                Live CPCB Sensor Network
-              </h3>
-            </div>
+      {/* Stats */}
+      <section className="max-w-[1200px] mx-auto px-6 pb-16 grid grid-cols-2 md:grid-cols-4 gap-4">
+        {stats.map((s, i) => (
+          <div key={i} className="glass rounded-xl p-5 text-center">
+            <div className="text-3xl font-bold text-white mb-1">{s.value}</div>
+            <div className="text-sm font-semibold text-slate-300">{s.label}</div>
+            <div className="text-xs text-slate-500 mt-0.5">{s.sub}</div>
           </div>
+        ))}
+      </section>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Source Attribution (Agent 1) */}
-            <div className="glass p-5 rounded-xl border border-white/5">
-              <h3 className="font-semibold text-lg mb-1 flex items-center gap-2">
-                PollutionBlame™ Attribution
-              </h3>
-              <p className="text-xs text-slate-400 mb-4">Agent 1: Real-time source analysis</p>
-              <SourceChart />
-            </div>
-
-            {/* Forecast (Agent 2) */}
-            <div className="glass p-5 rounded-xl border border-white/5">
-              <h3 className="font-semibold text-lg mb-1 flex items-center gap-2">
-                AirOracle™ 24hr Forecast
-              </h3>
-              <p className="text-xs text-slate-400 mb-4">Agent 2: LSTM + Transformer Prediction</p>
-              <ForecastChart />
-            </div>
-          </div>
-        </div>
-
-        {/* Right Column: Copilot & CitizenSaathi */}
-        <div className="space-y-6">
-          {/* Enforcement Copilot (Agent 3) */}
-          <div className="glass p-5 rounded-xl border border-red-500/20 bg-gradient-to-b from-red-950/20 to-transparent">
-            <h3 className="font-semibold text-lg mb-1 flex items-center gap-2 text-red-400">
-              <ShieldAlert size={20} />
-              EnforcementCopilot™
-            </h3>
-            <p className="text-xs text-slate-400 mb-4">Agent 3: Priority Interventions</p>
-            
-            <div className="space-y-3">
-              <div className="bg-slate-900/50 p-4 rounded-lg border border-red-500/10">
-                <span className="text-xs font-bold text-red-400 uppercase tracking-wider mb-2 block">Priority 1</span>
-                <p className="text-sm text-slate-300">
-                  Deploy inspectors to <span className="text-white font-semibold">Sanathnagar Ind. Area</span>. 
-                  Evidence: 40% PM10 spike correlated with 3 active construction permits violating dust suppression norms.
-                </p>
+      {/* Features Grid */}
+      <section className="max-w-[1200px] mx-auto px-6 pb-24">
+        <h2 className="text-3xl font-bold text-white mb-2 text-center">Platform Intelligence Modules</h2>
+        <p className="text-slate-400 text-center mb-10">Four specialized AI agents working in concert to close the data-to-action gap.</p>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {features.map((f) => (
+            <Link
+              key={f.href}
+              href={f.href}
+              className={`glass rounded-2xl p-6 border ${f.border} hover:scale-[1.02] transition-transform group`}
+            >
+              <div className={`inline-flex p-3 rounded-xl ${f.bg} mb-4`}>
+                <f.icon className={`w-6 h-6 ${f.color}`} />
               </div>
-              <div className="bg-slate-900/50 p-4 rounded-lg border border-orange-500/10">
-                <span className="text-xs font-bold text-orange-400 uppercase tracking-wider mb-2 block">Priority 2</span>
-                <p className="text-sm text-slate-300">
-                  Traffic diversion recommended at <span className="text-white font-semibold">Charminar Zone</span>.
-                  Prediction: Gridlock will cause AQI to cross 250 (Hazardous) between 18:00 and 20:00.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* CitizenSaathi Bot */}
-          <CitizenSaathiChat />
+              <h3 className="text-xl font-bold text-white mb-2 flex items-center justify-between">
+                {f.title}
+                <ArrowRight size={18} className="opacity-0 group-hover:opacity-100 transition-opacity text-slate-400" />
+              </h3>
+              <p className="text-slate-400 text-sm leading-relaxed">{f.description}</p>
+            </Link>
+          ))}
         </div>
-      </div>
+      </section>
     </div>
   );
 }

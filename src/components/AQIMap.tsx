@@ -2,19 +2,28 @@
 
 import dynamic from "next/dynamic";
 
-// Dynamically import the Map component with SSR disabled
+interface Measurement {
+  location: string;
+  value: number;
+  coordinates?: { latitude: number; longitude: number };
+}
+
 const Map = dynamic(() => import("./Map"), {
   ssr: false,
   loading: () => (
     <div className="h-full w-full rounded-xl overflow-hidden glass flex items-center justify-center">
-      <div className="animate-pulse flex flex-col items-center">
-        <div className="h-12 w-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mb-4"></div>
-        <p className="text-slate-400 font-medium tracking-wide">Loading Spatial Data...</p>
+      <div className="flex flex-col items-center gap-3">
+        <div className="h-10 w-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin" />
+        <p className="text-slate-400 text-sm font-medium">Loading Hyderabad Map...</p>
       </div>
     </div>
-  )
+  ),
 });
 
-export default function AQIMap() {
-  return <Map />;
+interface AQIMapProps {
+  liveData?: Measurement[];
+}
+
+export default function AQIMap({ liveData }: AQIMapProps) {
+  return <Map liveData={liveData} />;
 }
