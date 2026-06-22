@@ -110,7 +110,7 @@ export default function AttributionPage() {
                     </Pie>
                     <Tooltip
                       contentStyle={{ backgroundColor: "rgba(15,23,42,0.95)", borderColor: "rgba(255,255,255,0.1)", borderRadius: "8px" }}
-                      formatter={(val: number) => [`${val}%`, ""]}
+                      formatter={(val) => [`${val}%`, ""]}
                     />
                     <Legend iconType="circle" />
                   </PieChart>
